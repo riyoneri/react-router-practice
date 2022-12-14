@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom'
+
 import classes from './MainNavigation.module.css'
 
 const MainNavigation = () => {
@@ -6,10 +8,10 @@ const MainNavigation = () => {
         <nav className={classes.nav}>
             <ul>
                 <li>
-                    <a href='/quotes'>All Quotes</a>
+                    <NavLink to='/quotes' activeClassName={classes.active} >All Quotes</NavLink>
                 </li>
                 <li>
-                    <a href='/add-quote'>Add a Quote</a>
+                    <NavLink to='/add-quote' activeClassName={classes.active} >Add a Quote</NavLink>
                 </li>
             </ul>
         </nav>
