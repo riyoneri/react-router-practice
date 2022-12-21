@@ -9,14 +9,28 @@ function App() {
 
   const DUMMY_QUOTES = [
     {
+      id: '4',
+      author: 'Test 4',
+      text: 'Test quote 4',
+      comments: []
+    },
+    {
       id: '1',
-      author: 'Lion',
-      text: 'Test quote 1'
+      author: 'Test 1',
+      text: 'Test quote 1',
+      comments: []
+    },
+    {
+      id: '3',
+      author: 'Test 3',
+      text: 'Test quote 3',
+      comments: []
     },
     {
       id: '2',
-      author: 'test2',
-      text: 'Test quote 2'
+      author: 'Test 2',
+      text: 'Test quote 2',
+      comments: []
     },
   ]
 
