@@ -1,36 +1,29 @@
-import { useState } from 'react';
 import { Fragment } from 'react';
+
+import { useHistory, useLocation } from 'react-router-dom';
 
 import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
 const QuoteList = (props) => {
-  const [sortingOrder, setSortingOrder] = useState({
-    state: false,
-    type: 'default'
-  })
+  const history = useHistory()
+  const location = useLocation()
 
-  const sortHandler = () => {
-    if (!sortingOrder.state || sortingOrder.type === 'descending') {
-      props.onSort('ascending')
-      setSortingOrder({state: true, type: 'ascending'})
-    } else {
-      props.onSort('descending')
-      setSortingOrder({state: true, type: 'descending'})
-    }
-  }
+  const queryParams = new URLSearchParams(location.search)
 
-  let sortingButton;
-  if (sortingOrder.state === false || sortingOrder.type === 'descending') {
-    sortingButton = <button onClick={sortHandler}>Sort Ascending</button>
-  } else {
-    sortingButton = <button onClick={sortHandler}>Sort Descending</button>
+  const isSortingAscending = queryParams.get('sort') === 'asc';
+
+  console.log(isSortingAscending)
+
+  const changeSortingHandler = () => {
+    isSortingAscending === true ? history.push('/quotes?sort=desc') : history.push('/quotes?sort=asc')
+    // history.push('/quotes?sort=asc')
   }
 
   return (
     <Fragment>
-      <div className={classes.sorting} >
-        {sortingButton}
+      <div className={classes.sorting}>
+      <button onClick={changeSortingHandler} className={classes.button}>Sort {isSortingAscending === true ? 'Descending' : 'Ascending'}</button>
       </div>
       <ul className={classes.list}>
         {props.quotes.map((quote) => (
