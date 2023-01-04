@@ -8,9 +8,9 @@ import classes from './QuoteList.module.css';
 const sortQuotes = (quotes, ascending) => {
   return quotes.sort((quoteA, quoteB) => {
     if (ascending) {
-      return quoteA.id > quoteB.id ? 1 : -1;
+      return quoteA._id > quoteB._id ? 1 : -1;
     } else {
-      return quoteA.id < quoteB.id ? 1 : -1;
+      return quoteA._id < quoteB._id ? 1 : -1;
     }
   })
 }
@@ -40,8 +40,8 @@ const QuoteList = (props) => {
       <ul className={classes.list}>
         {sortedQuotes.map((quote) => (
           <QuoteItem
-            key={quote.id}
-            id={quote.id}
+            key={quote._id}
+            id={quote._id}
             author={quote.author}
             text={quote.text}
           />

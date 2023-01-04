@@ -1,12 +1,12 @@
 export async function getAllQuotes() {
   const response = await fetch(`/quotes`);
   const data = await response.json();
-
+  
   if (!response.ok) {
     throw new Error(data.message || 'Could not fetch quotes.');
-  }     
+  }   
 
-  return data;
+  return data.quotes;
 }
 
 export async function getSingleQuote(quoteId) {
@@ -17,12 +17,7 @@ export async function getSingleQuote(quoteId) {
     throw new Error(data.message || 'Could not fetch quote.');
   }
 
-  const loadedQuote = {
-    id: quoteId,
-    ...data,
-  };
-
-  return loadedQuote;
+  return data.quote;
 }
 
 export async function addQuote(quoteData) {
