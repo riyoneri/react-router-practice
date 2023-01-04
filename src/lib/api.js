@@ -1,29 +1,16 @@
-const FIREBASE_DOMAIN = 'https://react-prep-default-rtdb.firebaseio.com';
-
 export async function getAllQuotes() {
-  const response = await fetch(`${FIREBASE_DOMAIN}/quotes.json`);
+  const response = await fetch(`/quotes`);
   const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message || 'Could not fetch quotes.');
-  }
+  }     
 
-  const transformedQuotes = [];
-
-  for (const key in data) {
-    const quoteObj = {
-      id: key,
-      ...data[key],
-    };
-
-    transformedQuotes.push(quoteObj);
-  }
-
-  return transformedQuotes;
+  return data;
 }
 
 export async function getSingleQuote(quoteId) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/quotes/${quoteId}.json`);
+  const response = await fetch(`/quotes/${quoteId}`);
   const data = await response.json();
 
   if (!response.ok) {
@@ -39,7 +26,7 @@ export async function getSingleQuote(quoteId) {
 }
 
 export async function addQuote(quoteData) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/quotes.json`, {
+  const response = await fetch(`/quotes/add`, {
     method: 'POST',
     body: JSON.stringify(quoteData),
     headers: {
@@ -56,7 +43,7 @@ export async function addQuote(quoteData) {
 }
 
 export async function addComment(requestData) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/comments/${requestData.quoteId}.json`, {
+  const response = await fetch(`/comments/${requestData.quoteId}`, {
     method: 'POST',
     body: JSON.stringify(requestData.commentData),
     headers: {
@@ -73,7 +60,7 @@ export async function addComment(requestData) {
 }
 
 export async function getAllComments(quoteId) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/comments/${quoteId}.json`);
+  const response = await fetch(`/comments/${quoteId}`);
 
   const data = await response.json();
 
