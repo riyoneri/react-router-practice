@@ -63,16 +63,5 @@ export async function getAllComments(quoteId) {
     throw new Error(data.message || 'Could not get comments.');
   }
 
-  const transformedComments = [];
-
-  for (const key in data) {
-    const commentObj = {
-      id: key,
-      ...data[key],
-    };
-
-    transformedComments.push(commentObj);
-  }
-
-  return transformedComments;
+  return data.comments;
 }
