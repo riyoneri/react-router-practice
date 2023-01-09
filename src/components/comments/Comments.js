@@ -1,42 +1,47 @@
-import { useState, useEffect } from 'react';
-
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import useHttp from '../../hooks/use-http';
 import { getAllComments } from '../../lib/api'
 import LoadingSpinner from '../UI/LoadingSpinner';
+import CommentsList from '../comments/CommentsList'
 
 import classes from './Comments.module.css';
 import NewCommentForm from './NewCommentForm';
 
 const Comments = () => {
   const [isAddingComment, setIsAddingComment] = useState(false);
+  const { sendRequest, status, data: loadedComments } = useHttp(getAllComments)
 
   const params = useParams()
-  const quoteId = params.quoteId
-
-  const { sendRequest, error, data: loadedComments } = useHttp(getAllComments)
-
-  useEffect(() => {
-    sendRequest(quoteId)
-  }, [sendRequest, quoteId])
+  const { quoteId } = params
 
   const startAddCommentHandler = () => {
     setIsAddingComment(true);
   };
 
-  let displayComments;
+  useEffect(() => {
+    sendRequest(quoteId)
+  }, [quoteId, sendRequest])
 
-  if (error) {
-    displayComments = <p className='centered focused'>
-      Some error occured!
-    </p>
+  const addedCommentHandler = () => {}
+
+  let comments;
+
+  if (status === 'pending') {
+    comments = <div className='centered'>
+      <LoadingSpinner />
+    </div>
   }
 
-  if (!loadedComments || loadedComments.length === 0) {
-    displayComments = <p className='centered'>
-      No Available commets for this quote
-    </p>
+  if (status === 'completed' && (loadedComments && loadedComments.length > 0)) {
+    comments = <CommentsList comments = {loadedComments} />
+  }
+
+  if (status === 'completed' && (!loadedComments || loadedComments.length === 0)) {
+    comments = <div className='centered'>
+      <p>No comments were added yet</p>
+    </div>
   }
 
   return (
@@ -47,10 +52,8 @@ const Comments = () => {
           Add a Comment
         </button>
       )}
-      {isAddingComment && <NewCommentForm />}
-      <div>
-        {displayComments}
-      </div>
+      {isAddingComment && <NewCommentForm quoteId={params.quoteId} onAddedComment={addedCommentHandler} />}
+      {comments}
     </section>
   );
 };
