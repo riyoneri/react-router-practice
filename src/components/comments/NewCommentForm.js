@@ -10,7 +10,7 @@ const NewCommentForm = (props) => {
   const commentTextRef = useRef();
   
 
-  const { sendRequest, status, error, data: addedComment } = useHttp(addComment)
+  const { sendRequest, status, error } = useHttp(addComment)
 
   const { onAddedComment } = props
   
@@ -35,7 +35,7 @@ const NewCommentForm = (props) => {
 
   return (
     <form className={classes.form} onSubmit={submitFormHandler}>
-      {status && <div className='centered'>
+      {status === 'pending' && <div className='centered'>
         <LoadingSpinner />
       </div>}
       <div className={classes.control} onSubmit={submitFormHandler}>

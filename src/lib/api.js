@@ -38,7 +38,6 @@ export async function addQuote(quoteData) {
 }
 
 export async function addComment(requestData) {
-  console.log(JSON.stringify(requestData.commentData))
   const response = await fetch(`/add-comment/${requestData.quoteId}`, {
     method: 'POST',
     body: JSON.stringify({
@@ -58,7 +57,6 @@ export async function addComment(requestData) {
 }
 
 export async function getAllComments(quoteId) {
-  console.log(quoteId)
   const response = await fetch(`/comments/${quoteId}`);
 
   const data = await response.json();

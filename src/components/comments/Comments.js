@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 import useHttp from '../../hooks/use-http';
@@ -24,7 +24,9 @@ const Comments = () => {
     sendRequest(quoteId)
   }, [quoteId, sendRequest])
 
-  const addedCommentHandler = () => {}
+  const addedCommentHandler = useCallback(() => {
+    sendRequest(quoteId)
+  }, [sendRequest, quoteId])
 
   let comments;
 
